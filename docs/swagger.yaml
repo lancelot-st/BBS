@@ -1,0 +1,241 @@
+basePath: /api
+definitions:
+  api.ResponseData:
+    properties:
+      code:
+        type: integer
+      data:
+        description: omitempty当data为空时,不展示这个字段
+      message:
+        type: string
+    type: object
+host: 127.0.0.1:8084
+info:
+  contact:
+    email: XZupup4088@163.com
+    name: XZ
+    url: https://lancelot-st.github.io
+  description: 采用redit论坛的算法进行简化版制作的论坛
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: BBS
+  version: "1.0"
+paths:
+  /community:
+    get:
+      consumes:
+      - application/json
+      description: 获取社区列表
+      parameters:
+      - in: query
+        name: CommunityId
+        type: integer
+      - in: query
+        name: CommunityName
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ResponseData'
+      security:
+      - ApiKeyAut: []
+      summary: 获取社区列表接口
+      tags:
+      - 社区相关接口
+  /login:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 用户通过用户名密码进行登录
+      parameters:
+      - in: query
+        name: email
+        required: true
+        type: string
+      - in: query
+        maxLength: 16
+        minLength: 6
+        name: password
+        required: true
+        type: string
+      - in: query
+        name: user_id
+        type: integer
+      - in: query
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ResponseData'
+      security:
+      - ApiKeyAut: []
+      summary: 用户登录接口
+      tags:
+      - 登录相关接口
+  /posts:
+    post:
+      consumes:
+      - application/json
+      description: 创建帖子
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - in: query
+        name: author_id
+        type: integer
+      - in: query
+        name: community_id
+        type: integer
+      - in: query
+        name: content
+        type: string
+      - in: query
+        name: create_time
+        type: string
+      - description: 排序讲究内存对齐
+        in: query
+        name: post_id
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        name: title
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ResponseData'
+      security:
+      - ApiKeyAut: []
+      summary: 发布帖子接口
+      tags:
+      - 帖子相关接口
+  /posts/list:
+    get:
+      consumes:
+      - application/json
+      description: 按帖子发布的时间的从新到旧排列获取帖子列表
+      parameters:
+      - in: query
+        name: order
+        type: string
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ResponseData'
+      security:
+      - ApiKeyAut: []
+      summary: 获取帖子列表接口
+      tags:
+      - 帖子相关接口
+  /posts/list2:
+    get:
+      consumes:
+      - application/json
+      description: 按分数的大小从大到小排列获取帖子列表
+      parameters:
+      - in: query
+        name: order
+        type: string
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ResponseData'
+      security:
+      - ApiKeyAut: []
+      summary: 获取帖子列表接口
+      tags:
+      - 帖子相关接口
+  /register:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 用户通过填写用户名密码邮箱进行注册
+      parameters:
+      - in: query
+        name: email
+        required: true
+        type: string
+      - in: query
+        maxLength: 16
+        minLength: 6
+        name: password
+        required: true
+        type: string
+      - in: query
+        name: user_id
+        type: integer
+      - in: query
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ResponseData'
+      security:
+      - ApiKeyAut: []
+      summary: 用户注册接口
+      tags:
+      - 注册相关接口
+  /vote:
+    post:
+      consumes:
+      - application/json
+      description: 用户为喜爱或者讨厌的帖子进行投票有赞成票、反对票和放弃
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ResponseData'
+      security:
+      - ApiKeyAut: []
+      summary: 用户投票接口
+      tags:
+      - 投票相关接口
+swagger: "2.0"

@@ -1,0 +1,31 @@
+#Env: prod # 环境，线上环境：prod、测试环境：dev
+#BaseUrl: https://mlog.club #网站域名上线之后申请
+#ShowSql: false # 是否打印sql
+#StaticPath: /data/www  # 根路径下的静态文件目录，可配置绝对路径
+
+#程序配置
+app:
+  name: "BBS"
+  Port: 8084 # 端口
+
+#日志
+log:
+  level: debug
+  LogFile: "/logger/BBS.log" # 日志文件
+  max_size: 200 #最大容量200M
+  max_age: 30 #最多储存天数
+  max_backups: 7 #
+
+# 数据库连接
+DB:
+  Url: 用户:密码@tcp(MySQL所在IP:3306)/BBS?charset=utf8mb4&parseTime=True&loc=Local
+  MaxIdleConns: 50
+  MaxOpenConns: 200
+
+# redis连接
+Redis:
+  host: "IP"
+  port: 6379
+  password: ""
+  db: 0
+  pool_size: 100
